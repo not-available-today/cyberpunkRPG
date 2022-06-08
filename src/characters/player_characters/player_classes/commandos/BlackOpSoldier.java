@@ -2,9 +2,8 @@ package characters.player_characters.player_classes.commandos;
 
 import characters.npc_classes.NPC;
 import characters.player_characters.PlayerCharacter;
-import inventory.Inventory;
 import inventory.weapons.ballistic.Glock17;
-import inventory.weapons.ballistic.M4Carbine;
+import inventory.weapons.ballistic.M82A1SniperRile;
 import main.auxilliary_tools.Dice;
 import main.auxilliary_tools.Narrator;
 
@@ -13,14 +12,13 @@ public class BlackOpSoldier extends Commando {
     public BlackOpSoldier() {
         setMoveCounter(0);
         startStatSelection();
-        chooseAffiliation();
+        selectAffiliation();
         setDamageMultiplier(3);
         selectPlayerColor();
-        setPrimaryWeapon(new M4Carbine());
-        setSecondaryWeapon(new Glock17());
-        setRucksack(new Inventory(this));
+        initializeMedPack();
+        initializeWeapons();
+        equipWeapon();
     }
-
     @Override
     public int[] rollStats() {
         int[] stats = new int[4];
@@ -31,17 +29,23 @@ public class BlackOpSoldier extends Commando {
         return stats;
     }
 
+    @Override
+    public void initializeWeapons() {
+        M82A1SniperRile sniper = new M82A1SniperRile();
+        Glock17 glock = new Glock17();
+        setPrimaryWeapon(sniper);
+        setSecondaryWeapon(glock);
+    }
+
+    @Override
+    public void attack(NPC opponent, PlayerCharacter player) {
+        super.attack(opponent, player);
+    }
 
     @Override
     public void useSpecialAbility(NPC opponent, PlayerCharacter activePlayer) {
 
     }
-
-    @Override
-    public int dealDamage() {
-        return Dice.d12(getDamageMultiplier() + 5);
-    }
-
 
     @Override
     public String regularAttackToString() {
@@ -66,8 +70,6 @@ public class BlackOpSoldier extends Commando {
                            "\nInitial Damage Range: 3-36 " +
                            "\nInitial Health Range: 40-64");
     }
-
-
 
     @Override
     public void printImage() {

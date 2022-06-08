@@ -7,6 +7,7 @@ public abstract class Explosive extends Weapon {
     private int burnDamage;
 
     private int quantity;
+    private int maxQuantity;
 
     public Explosive() {
     }
@@ -35,9 +36,30 @@ public abstract class Explosive extends Weapon {
         this.burnDamage = burnDamage;
     }
 
+    public int getMaxQuantity() {
+        return maxQuantity;
+    }
+
+    public void setMaxQuantity(int maxQuantity) {
+        this.maxQuantity = maxQuantity;
+    }
+
     @Override
     public String toString() {
         return "Explosive";
     }
 
+    @Override
+    public void depleteWeapon(int roll) {
+        setQuantity(getQuantity()-1);
+    }
+
+    @Override
+    public void printInfo() {
+        System.out.println(getName() + ":" +
+                           "\nDamage:      " + getDamage() +
+                           "\nBurnDamage:" + getBurnDamage() +
+                           "\nQuantity:" + getQuantity()
+        );
+    }
 }

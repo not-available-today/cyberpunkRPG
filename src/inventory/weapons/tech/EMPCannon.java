@@ -1,19 +1,15 @@
 package inventory.weapons.tech;
 
 import characters.player_characters.PlayerCharacter;
+import main.auxilliary_tools.Dice;
 
 public class EMPCannon extends TechWeapon {
-    private int range;
-
-    @Override
-    public void printInfo() {
-
-    }
-
-
-    @Override
-    public int useWeapon() {
-        return 0;
+    public EMPCannon() {
+        setUses(30);
+        setMaxUses(30);
+        setDamage(Dice.d20()+Dice.d6(4));
+        setName("EMP Cannon");
+        setPrice(30000);
     }
 
     @Override
@@ -21,8 +17,4 @@ public class EMPCannon extends TechWeapon {
 
     }
 
-    @Override
-    public void depleteWeapon() {
-
-    }
 }

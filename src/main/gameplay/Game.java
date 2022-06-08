@@ -1,13 +1,13 @@
 package main.gameplay;
 
 import characters.GameCharacter;
-import characters.npc_classes.Boss;
 import characters.npc_classes.NPC;
-import characters.npc_classes.npc_subclasses.captain_subclasses.STARCorpManagement;
+import characters.npc_classes.npc_subclasses.boss_subclasses.Boss;
+import characters.npc_classes.npc_subclasses.boss_subclasses.ElPatron;
+import characters.npc_classes.npc_subclasses.boss_subclasses.YakuzaOyabun;
 import characters.npc_classes.npc_subclasses.captain_subclasses.Sicario;
 import characters.npc_classes.npc_subclasses.captain_subclasses.YakuzaLieutenant;
 import characters.npc_classes.npc_subclasses.soldier_subclasses.NarcoFootSoldier;
-import characters.npc_classes.npc_subclasses.soldier_subclasses.STARCorpOfficeDrone;
 import characters.npc_classes.npc_subclasses.soldier_subclasses.YakuzaSoldier;
 import characters.player_characters.PlayerCharacter;
 import characters.player_characters.player_classes.commandos.BlackOpSoldier;
@@ -28,11 +28,81 @@ import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 public class Game {
-    private PlayerCharacter mainCharacter;
-    private int difficultyLevel;
-    private ArrayList<NPC> enemies;
+    public PlayerCharacter mainCharacter;
+    public int difficultyLevel;
+    protected ArrayList<NPC> opponents;
 
-    public enum affiliation {CORPORATE, PARAMILITARY, REVOLUTIONARY, OUTLAW, INDEPENDENT}
+    protected void oneBossBattleLoop(Game game) {
+        while (getOpponents().size() > 1) {
+            game.battle();
+            game.getMainCharacter().levelUp();
+            if (getOpponents().size() > 2) {
+                System.out.println("Todd: Only one bastard left.");
+            }
+        }
+    }
+
+    protected void twoBossBattleLoop(Game game) {
+        while (getOpponents().size() > 2) {
+            game.battle();
+            game.getMainCharacter().levelUp();
+            if (getOpponents().size() > 3) {
+                System.out.println("Todd: There's two of these pricks these time left.");
+            }
+        }
+    }
+
+    public NPC generateLevelOneEnemies() {
+        NPC[] enemyTypes = new NPC[]{new YakuzaSoldier(), new YakuzaLieutenant(), new YakuzaLieutenant(),
+                new YakuzaSoldier(), new YakuzaLieutenant(), new YakuzaSoldier(), new YakuzaLieutenant(),
+        new YakuzaSoldier()};
+        return enemyTypes[Dice.d8(1) - 1];
+    }
+
+    public NPC generateLevelTwoEnemies() {
+        NPC[] enemyTypes = new NPC[]{new NarcoFootSoldier(), new Sicario(),new NarcoFootSoldier(),
+                new Sicario(),new NarcoFootSoldier(), new Sicario()};
+        return enemyTypes[Dice.d8(1) - 1];
+    }
+
+    public NPC generateLevelThreeEnemies() {
+        NPC[] enemyTypes = new NPC[]{new NarcoFootSoldier(), new Sicario(),
+                new YakuzaSoldier(), new YakuzaLieutenant()};
+        return enemyTypes[Dice.d6(1) - 1];
+    }
+
+    public void populateLevelOneEnemiesArray() {
+        int opponents = Dice.d6((1)) + 10;
+        setOpponents(new ArrayList<>(opponents));
+        for (int i = 0; i < opponents; i++) {
+            getOpponents().add(generateLevelOneEnemies());
+        }
+        getOpponents().add(new YakuzaOyabun());
+        System.out.println("Enemies count for level: " + getOpponents().size());
+    }
+
+    public void populateLevelTwoEnemies() {
+        int opponents = Dice.d8(1) + 20;
+        setOpponents(new ArrayList<>());
+        for (int i = 0; i < opponents; i++) {
+            getOpponents().add(generateLevelTwoEnemies());
+        }
+        getOpponents().add(new ElPatron());
+        System.out.println("Enemies count for level: " + getOpponents().size());
+    }
+
+    public void populateLevelThreeEnemies() {
+        int opponents = Dice.d10(1)+30;
+        setOpponents(new ArrayList<>(opponents));
+        for (int i = 0; i < opponents; i++) {
+            getOpponents().add(generateLevelThreeEnemies());
+        }
+        getOpponents().add(new ElPatron());
+        getOpponents().add(new YakuzaOyabun());
+        System.out.println("Enemies count for level: " + getOpponents().size());
+    }
+
+    public enum affiliation {CORPORATE, PARAMILITARY, REVOLUTIONARY, MAFIA, INDEPENDENT}
 
     public Game() {
         //populateEnemiesArray();
@@ -41,42 +111,26 @@ public class Game {
 
     //region getters/setters
     public PlayerCharacter getMainCharacter() {
-        return this.mainCharacter;
+        return mainCharacter;
     }
 
     public void setMainCharacter(PlayerCharacter mainCharacter) {
         this.mainCharacter = mainCharacter;
     }
 
-    public void setEnemies(ArrayList<NPC> enemies) {
-        this.enemies = new ArrayList<>(enemies);
-    }
-
-    public ArrayList<NPC> getEnemies() {
-        return this.enemies;
-    }
-
     public int getDifficultyLevel() {
         return this.difficultyLevel;
     }
+
+    public void setOpponents(ArrayList<NPC> opponents) {
+        this.opponents = opponents;
+    }
+
+    public ArrayList<NPC> getOpponents() {
+        return this.opponents;
+    }
     //endregion
 
-    //region enemyGeneration
-    private NPC generateRandomEnemy() {
-        NPC[] enemyTypes = new NPC[]{new YakuzaSoldier(), new YakuzaLieutenant(),
-                new NarcoFootSoldier(), new Sicario(), new STARCorpOfficeDrone(), new STARCorpManagement()};
-        return enemyTypes[Dice.d6(1) - 1];
-    }
-
-    public final void populateEnemiesArray() {
-        int numberOfEnemies = (Dice.d12(2)) * getDifficultyLevel();
-        setEnemies(new ArrayList<>(numberOfEnemies));
-        for (int i = 0; i < numberOfEnemies; i++) {
-            getEnemies().add(generateRandomEnemy());
-        }
-        //getEnemies().add(new Boss());
-        System.out.println("Enemies count for level " + getEnemies().size());
-    }
     //endregion
 
 
@@ -152,8 +206,8 @@ public class Game {
                 case "M" -> examineMetahumans();
                 default -> GameConsole.invalidChoice();
             }
-
         }
+
     }
 
     public void selectCommandoSubclass() {
@@ -185,10 +239,10 @@ public class Game {
         printMetahumanSubclassSelection();
         String choice = sc.nextLine();
         switch (choice) {
-            case "B" -> setMainCharacter(new Biodroid());
+            case "B" ->setMainCharacter(new Biodroid());
             case "M" -> setMainCharacter(new MKUltraAsset());
-            case "R" -> setMainCharacter(new Replicant());
-            default  -> selectCommandoSubclass();
+            case "H" -> setMainCharacter(new Replicant());
+            default -> selectMetahumanSubclass();
         }
     }
 
@@ -221,7 +275,7 @@ public class Game {
     }
 
     public static void attemptSelection(Boss boss, PlayerCharacter player) {
-        int selection = (int) ((Math.random() * 3) + 1);
+        int selection = Dice.d4(1) - 1;
         switch (selection) {
             case 1 -> boss.attack(boss, player);
             case 2 -> boss.useSpecialAbility(boss, player);
@@ -240,7 +294,7 @@ public class Game {
                 case 1 -> player.attack(opponent, player);
                 case 2 -> player.useSpecialAbility(opponent, player);
                 case 3 -> player.heal();
-                case 5 -> player.printPlayerStats();
+                case 4 -> player.printPlayerInformation();
                 default -> GameConsole.invalidChoice();
             }
         }
@@ -269,13 +323,13 @@ public class Game {
     private void preBattle(NPC enemy) {
         enemy.printImage();
         GameConsole.moveForward();
-        enemy.printPlayerStats();
+        enemy.printPlayerInformation();
         GameConsole.moveForward();
     }
 
     public void battle() {
         PlayerCharacter player = getMainCharacter();
-        NPC enemy = getEnemies().get(0);
+        NPC enemy = getOpponents().get(0);
         preBattle(enemy);
         battleLoop(player, enemy);
     }
@@ -283,28 +337,18 @@ public class Game {
     private void battleLoop(PlayerCharacter player, NPC enemy) {
         while (true) {
             playerTurn(player, enemy);
-            if (enemyHealthCheck(player, enemy)) {
+            if (isBattleOver(enemy, player)) {
+                System.out.println(determineVictor(player));
+                GameConsole.moveForward();
                 break;
+            } else
+                enemyTurn(player, enemy);
+            if (isBattleOver(enemy, player)) {
+                System.out.println(determineVictor(player));
+                System.exit(0);
             }
-            enemyTurn(player, enemy);
-            playerHealthCheck(player, enemy);
         }
     }
-
-    private void playerHealthCheck(PlayerCharacter player, NPC enemy) {
-        if (isBattleOver(enemy, player)) {
-            announceResult(determineVictor(player, enemy));
-        }
-    }
-
-    private boolean enemyHealthCheck(PlayerCharacter player, NPC enemy) {
-        if (isBattleOver(enemy, player)) {
-            announceResult(determineVictor(player, enemy));
-            return true;
-        }
-        return false;
-    }
-
 
     private void playerTurn(PlayerCharacter player, NPC enemy) {
         attemptSelection(player, enemy);
@@ -318,12 +362,12 @@ public class Game {
         System.out.println();
     }
 
-    private boolean isBattleOver(NPC n, PlayerCharacter p) {
-        return n.getHealth() <= 0 || p.getHealth() <= 0;
+    public boolean isBattleOver(NPC n, PlayerCharacter p) {
+        return n.getHealth() < 1 || p.getHealth() < 1;
     }
 
     private boolean isBattleOver(Boss b, PlayerCharacter p) {
-        return b.getHealth() <= 0 || p.getHealth() <= 0;
+        return b.getHealth() < 1 || p.getHealth() < 1;
     }
 
     public void bossBattle(Boss boss, PlayerCharacter player) {
@@ -331,30 +375,29 @@ public class Game {
             attemptSelection(player, boss);
             printDamageReport(boss);
             if (isBattleOver(boss, player)) {
-                announceResult(determineVictor(player, boss));
+                System.out.println(determineVictor(player));
                 GameConsole.moveForward();
                 break;
             }
             attemptSelection(boss, player);
             printDamageReport(player);
             if (isBattleOver(boss, player)) {
-                announceResult(determineVictor(player, boss));
-                break;
+                System.out.println(determineVictor(player));
+                System.exit(0);
             }
         }
     }
 
     public boolean isGameOver() {
-        return this.getEnemies().size() == 0 || this.getMainCharacter().getHealth() == 0;
+        return getOpponents().size() < 1 || getMainCharacter().getHealth() < 1;
     }
 
-    private GameCharacter determineVictor(GameCharacter p, GameCharacter o) {
-        if (o.getHealth() <= 0) {
-            getEnemies().remove(0);
-            return p;
+    private String determineVictor(PlayerCharacter c) {
+        if (c.getHealth() <= 0) {
+            return "You are dead";
         } else
-            return o;
-
+            getOpponents().remove(0);
+        return "You win!";
     }
 
     public static void printDamageReport(GameCharacter g) {
@@ -364,15 +407,6 @@ public class Game {
         System.out.println(g.getName() + " has " + g.getHealth() + " Health Points left.");
     }
 
-    public static void announceResult(GameCharacter g) {
-        if (g instanceof PlayerCharacter) {
-            System.out.println("You win!");
-            GameConsole.moveForward();
-        } else if (g instanceof NPC) {
-            System.out.println("You are dead.");
-            System.exit(0);
-        }
-    }
 
     public String difficultyToString() {
         switch (this.getDifficultyLevel()) {

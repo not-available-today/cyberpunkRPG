@@ -2,7 +2,6 @@ package characters.player_characters.player_classes.commandos;
 
 import characters.npc_classes.NPC;
 import characters.player_characters.PlayerCharacter;
-import inventory.Inventory;
 import inventory.weapons.explosives.C4;
 import inventory.weapons.explosives.FragGrenade;
 import main.auxilliary_tools.Dice;
@@ -13,12 +12,13 @@ public class DemolitionExpert extends Commando {
     public DemolitionExpert() {
         setMoveCounter(0);
         startStatSelection();
-        chooseAffiliation();
-        setDamageMultiplier(5);
+        affiliationSelection();
+        setDamageMultiplier(3);
         selectPlayerColor();
-        setPrimaryWeapon(new C4(Dice.d8(1)));
-        setSecondaryWeapon(new FragGrenade());
-        setRucksack(new Inventory(this));
+        initializeMedPack();
+        initializeWeapons();
+        equipWeapon();
+
     }
 
     @Override
@@ -32,17 +32,21 @@ public class DemolitionExpert extends Commando {
     }
 
     @Override
-    public int dealDamage() {
-        return getPrimaryWeapon().getDamage();
+    public void attack(NPC opponent, PlayerCharacter player) {
+        super.attack(opponent, player);
     }
 
     @Override
     public void useSpecialAbility(NPC opponent, PlayerCharacter activePlayer) {
-
     }
 
     @Override
+    public void initializeWeapons() {
+        setPrimaryWeapon(new C4());
+        setSecondaryWeapon(new FragGrenade());
+    }
 
+    @Override
     public String regularAttackToString() {
         return "Microexplosives";
     }
@@ -54,15 +58,16 @@ public class DemolitionExpert extends Commando {
 
     @Override
     public void printDamageCapability() {
+        System.out.println(dealDamage(Dice.d20() / 4));
 
     }
 
     public static void printClassDescription() {
-        System.out.println(Narrator.RED+"DEMOLITIONS EXPERT:" +Narrator.ANSI_RESET+
-                "\nLoves to watch things explode.\n" +
-                "\nWeapons: C4/FragGrenade" +
-                "\nInitial Damage Range: 12-120 " +
-                "\nInitial Health Range: 50-66");
+        System.out.println(Narrator.RED + "DEMOLITIONS EXPERT:" + Narrator.ANSI_RESET +
+                           "\nLoves to watch things explode." +
+                           "\nWeapons: C4/FragGrenade" +
+                           "\nInitial Damage Range: 12-120 " +
+                           "\nInitial Health Range: 50-66");
 
     }
 

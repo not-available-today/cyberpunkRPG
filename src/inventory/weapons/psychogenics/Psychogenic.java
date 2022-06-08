@@ -28,4 +28,13 @@ public abstract class Psychogenic extends Weapon {
     }
 
 
+    @Override
+    public void depleteWeapon(int roll) {
+        setEnergy(getEnergy()-1);
+    }
+
+    @Override
+    public void printInfo() {
+
+    }
 }

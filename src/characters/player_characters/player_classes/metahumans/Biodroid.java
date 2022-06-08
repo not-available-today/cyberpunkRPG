@@ -1,21 +1,23 @@
 package characters.player_characters.player_classes.metahumans;
 
-import inventory.Inventory;
-import inventory.weapons.explosives.C4;
-import inventory.weapons.explosives.FragGrenade;
+import characters.npc_classes.NPC;
+import characters.player_characters.PlayerCharacter;
+import inventory.weapons.explosives.PlasmaGrenade;
+import inventory.weapons.tech.SonicBlast;
 import main.auxilliary_tools.Dice;
+import main.auxilliary_tools.Narrator;
 
 public class Biodroid extends Metahuman {
 
     public Biodroid() {
         setMoveCounter(0);
         startStatSelection();
-        chooseAffiliation();
+        selectAffiliation();
         setDamageMultiplier(5);
         selectPlayerColor();
-        setPrimaryWeapon(new C4(Dice.d8(1)));
-        setSecondaryWeapon(new FragGrenade());
-        setRucksack(new Inventory(this));
+        initializeMedPack();
+        initializeWeapons();
+        equipWeapon();
     }
 
     @Override
@@ -29,18 +31,24 @@ public class Biodroid extends Metahuman {
     }
 
     @Override
-    public int dealDamage() {
-        return 0;
+    public void initializeWeapons() {
+        setPrimaryWeapon(new SonicBlast());
+        setSecondaryWeapon(new PlasmaGrenade());
+    }
+
+    @Override
+    public void attack(NPC opponent, PlayerCharacter player) {
+        super.attack(opponent, player);
     }
 
     @Override
     public String regularAttackToString() {
-        return null;
+        return "Devastating blast";
     }
 
     @Override
     public String specialMoveToString() {
-        return null;
+        return "The DEATHGRIP!";
     }
 
     @Override
@@ -50,7 +58,11 @@ public class Biodroid extends Metahuman {
 
 
     public static void printClassDescription() {
-
+        System.out.println(Narrator.PURPLE + "BIO DROID:" + Narrator.ANSI_RESET +
+                           "\nExperimental mixture of man and machine.\n" +
+                           "\nWeapons: Sonic Blast/Plasma Grenade" +
+                           "\nInitial Damage Range: 12-120 " +
+                           "\nInitial Health Range: 50-66");
     }
 
     @Override

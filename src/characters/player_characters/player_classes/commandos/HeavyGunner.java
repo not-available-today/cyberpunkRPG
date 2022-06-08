@@ -2,7 +2,6 @@ package characters.player_characters.player_classes.commandos;
 
 import characters.npc_classes.NPC;
 import characters.player_characters.PlayerCharacter;
-import inventory.Inventory;
 import inventory.weapons.ballistic.M249SAW;
 import inventory.weapons.explosives.PlasmaGrenade;
 import main.auxilliary_tools.Dice;
@@ -14,17 +13,12 @@ public class HeavyGunner extends Commando {
     public HeavyGunner() {
         setMoveCounter(0);
         startStatSelection();
-        chooseAffiliation();
-        setDamageMultiplier(2);
+        selectAffiliation();
+        setDamageMultiplier(3);
         selectPlayerColor();
-        setPrimaryWeapon(new M249SAW());
-        setSecondaryWeapon(new PlasmaGrenade());
-        setRucksack(new Inventory(this));
-    }
-
-    @Override
-    public int dealDamage() {
-       return Dice.d8(getDamageMultiplier())+getPrimaryWeapon().getDamage();
+        initializeMedPack();
+        initializeWeapons();
+        equipWeapon();
     }
 
     @Override
@@ -43,6 +37,12 @@ public class HeavyGunner extends Commando {
     }
 
     @Override
+    public void initializeWeapons() {
+        setPrimaryWeapon(new M249SAW());
+        setSecondaryWeapon(new PlasmaGrenade());
+    }
+
+    @Override
     public String regularAttackToString() {
         return "Suppressing Fire!";
     }
@@ -58,12 +58,17 @@ public class HeavyGunner extends Commando {
 
     }
 
+    @Override
+    public void attack(NPC opponent, PlayerCharacter player) {
+        super.attack(opponent, player);
+    }
+
     public static void printClassDescription() {
-        System.out.println(Narrator.RED + "HEAVY GUNNER" + Narrator.ANSI_RESET+
-                "\nGiant hulk of a person, throws M249 around like a feather.\n" +
-                "\nWeapons: M249SAW/PlasmaGrenade" +
-                "\nInitial Damage Range: 3-36 " +
-                "\nInitial Health Range: 45-63" );
+        System.out.print(Narrator.RED + "HEAVY GUNNER" + Narrator.ANSI_RESET +
+                           "\nGiant hulk of a person, throws M249 around like a feather.\n" +
+                           "\nWeapons: M249SAW/PlasmaGrenade" +
+                           "\nInitial Damage Range: 3-36 " +
+                           "\nInitial Health Range: 45-63");
     }
 
     @Override

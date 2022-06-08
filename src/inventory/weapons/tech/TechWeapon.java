@@ -28,4 +28,16 @@ public abstract class TechWeapon extends Weapon {
     }
 
 
+    @Override
+    public void depleteWeapon(int roll) {
+        setUses(getUses()-roll/2);
+    }
+
+    @Override
+    public void printInfo() {
+        System.out.println(getName() + ":" +
+                           "\nDamage    :" + getDamage() +
+                           "\nUses Left :" + getUses()
+        );
+    }
 }

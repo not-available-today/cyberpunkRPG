@@ -1,19 +1,16 @@
 package inventory.weapons.ballistic;
 
 import characters.player_characters.PlayerCharacter;
+import main.auxilliary_tools.Dice;
 
 public class Glock17 extends BallisticWeapon {
 
     public Glock17() {
         setAmmo(60);
         setMaxAmmo(60);
-        setDamage(4);
+        setWeaponLevel(1);
+        setDamage(Dice.d4(getWeaponLevel()));
         setName("Glock-17");
-    }
-
-    @Override
-    public int useWeapon() {
-        return 0;
     }
 
     @Override
@@ -22,8 +19,8 @@ public class Glock17 extends BallisticWeapon {
     }
 
     @Override
-    public void depleteWeapon() {
-
+    public void depleteWeapon(int roll) {
+        setAmmo(getAmmo()-roll/4);
     }
 
     @Override

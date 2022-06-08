@@ -31,22 +31,25 @@ public abstract class Narrator {
     }
 
     public static void printIntro() {
-        System.out.println("Todd: Hey you, finally awake. You should be new here. What's your name, stranger?");
+        System.out.println("Drax: Hey you, finally awake. You should probably get out of that filth." +
+                           "\nWhat the fuck happened to you? Who the fuck are you?");
         System.out.println("-----Select Name-----");
     }
 
     public static void printLevelZeroText() {
-        System.out.println("\nWait... you said " + getPlayerName() +
-                           " ?\nSo it IS you. You're the man of prophecy who's supposed to lead us to freedom..." +
-                           "\n No time, here, take my " + getPlayerWeapon() + "\nthey will be useful to you. " +
-                           "Defeat these guards and I will explain everything to you.");
+        System.out.println("\nDrax: Wait... you said " + getPlayerName() +
+                           "\nAH shit, it is you. My man! We been lookin all over for yo ass!" +
+                           "\n Ah shit they found us." +
+                           "\n No time, better square up " + getPlayerWeapon() +
+                           "\n...they're coming." +
+                           "\nFuck these goons up real quick and I'll holla at ya.'");
     }
 
     public static void printLevelOneText() {
-        System.out.println("Todd: Yes, you're definitely him.\n");
-        System.out.println(getPlayerName() + " : Explain what prophecy you're talking about?\n");
+        System.out.println("Drax: Yeah, you're definitely who you say you are.\n");
+        System.out.println(getPlayerName() + " : What the fuck do you want with me?\n");
         GameConsole.moveForward();
-        System.out.println("Todd: A long time ago, when Phil Oxlong killed Lord Gabe, Lord Gabe's soothsayer " +
+        System.out.println("Todd: A while ago, the Yakuza ran up in this neighborhood, and they haven't left since " +
                            "\npredicted that the time would come and he would be possessed by a man with the name \n"
                            + getPlayerName() + ", and then there would be peace. And you came, I knew it. It's not an easy road" +
                            "\n for you stranger, but I'll try to help you in any way I can. Keep your \n"
@@ -64,7 +67,7 @@ public abstract class Narrator {
         GameConsole.moveForward();
     }
 
-    public static void printLevelThreeText(){
+    public static void printLevelThreeText() {
         System.out.println("Todd: Well, now we just have to make it through to the top of the tower. " +
                            "\nTake out the rest of the guards around Oxlong's chambers and we will be one step closer to freedom");
         System.out.println();
@@ -72,7 +75,7 @@ public abstract class Narrator {
 
     }
 
-    public static void printLevelFourText(){
+    public static void printLevelFourText() {
         System.out.println("Phil Oxlong: Ah, I see you've managed to make it...I must say I am surprised you did..." +
                            "\nyou aren't particularly exceptional...");
         GameConsole.moveForward();
@@ -81,23 +84,24 @@ public abstract class Narrator {
 
     }
 
-    public static void printVictoryMessage(){
-        System.out.println("Todd: Congratulations, " + getPlayerName()+ " you have freed Elden Square from the grip of the evil Phil Oxlong." +
+    public static void printVictoryMessage() {
+        System.out.println("Todd: Congratulations, " + getPlayerName() + " you have freed Elden Square from the grip of the evil Phil Oxlong." +
                            "\nWe will forever be in your debt. Please always feel welcome here.");
-        System.out.println(GREEN+"""
+        System.out.println(GREEN + """
                 :::   :::  ::::::::  :::    :::      :::       :::  ::::::::  ::::    ::: :::\s
                 :+:   :+: :+:    :+: :+:    :+:      :+:       :+: :+:    :+: :+:+:   :+: :+:\s
                  +:+ +:+  +:+    +:+ +:+    +:+      +:+       +:+ +:+    +:+ :+:+:+  +:+ +:+\s
                   +#++:   +#+    +:+ +#+    +:+      +#+  +:+  +#+ +#+    +:+ +#+ +:+ +#+ +#+\s
                    +#+    +#+    +#+ +#+    +#+      +#+ +#+#+ +#+ +#+    +#+ +#+  +#+#+# +#+\s
                    #+#    #+#    #+# #+#    #+#       #+#+# #+#+#  #+#    #+# #+#   #+#+#    \s
-                   ###     ########   ########         ###   ###    ########  ###    #### ###\s"""+ANSI_RESET);
+                   ###     ########   ########         ###   ###    ########  ###    #### ###\s""" + ANSI_RESET);
         GameConsole.moveForward();
     }
+
     public static void printPuzzle() {
         System.out.println();
-        System.out.println(YELLOW+"\t\t------THE MYSTERY OF THE SPHINX-------"+ANSI_RESET);
-        System.out.println(YELLOW+"""
+        System.out.println(YELLOW + "\t\t------THE MYSTERY OF THE SPHINX-------" + ANSI_RESET);
+        System.out.println(YELLOW + """
                 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⡶⠿⢝⡕⡦⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
                 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⠖⢉⣫⢢⡍⢩⢝⣾⣠⣇⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
                 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡠⢢⡞⠙⢧⣾⡿⣿⣾⣷⣿⠹⣿⣽⠏⢹⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
@@ -127,7 +131,7 @@ public abstract class Narrator {
                 ⠀⠀⠀⠻⡕⡹⢪⣔⡹⢳⢧⢿⣿⡿⡻⡆⣃⢿⢸⣆⡇⡄⣼⢤⡿⣿⢿⡯⢱⠺⢕⡨⢎⢌⠕⠀⠀⠀⠀⠀⠀
                 ⠀⠀⠀⠀⠈⠒⢏⡜⡹⢳⢧⠧⡧⠧⢧⠐⢠⢸⢈⣇⡇⡇⡸⣼⢧⠮⡼⡅⡳⡛⡝⢎⠦⠃⠀⠀⠀⠀⠀⠀⠀
                 ⠀⠀⠀⠀⠀⠀⠀⠈⠑⠃⠬⠼⠼⠼⠼⠼⠼⠼⠬⠇⠇⠧⠧⠤⠼⠤⠧⠧⠐⠚⠈⠀⢀⡝⢠⣶⠀⡶⢆⠄⠀
-                ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠘⠘⠿⢛⣴⣿⠿⠷⠄"""+ ANSI_RESET);
+                ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠘⠘⠿⢛⣴⣿⠿⠷⠄""" + ANSI_RESET);
         GameConsole.moveForward();
         System.out.println("Sphinx: Hello, human. To continue down your path you must answer my riddle. " +
                            "\nI will give you three chances to answer correctly, if you fail, I will dine upon your corpse...");

@@ -1,14 +1,17 @@
 package inventory.power_ups;
 
+import inventory.Item;
 import main.auxilliary_tools.Dice;
 
-public class MedPack extends PowerUp {
+public class MedPack extends Item {
     private int strength;
     private int quantity;
 
     public MedPack() {
+        setName("MedPack");
+        setPrice(50);
         setStrength(Dice.d12(1) + 1);
-        setQuantity(Dice.d10(1)+2);
+        setQuantity(Dice.d10(1) + 2);
     }
 
     public int getStrength() {
@@ -30,8 +33,10 @@ public class MedPack extends PowerUp {
     @Override
     public void printInfo() {
         System.out.println("Med-Pack: " +
-                           "\nStrength: +" + getStrength() + "HP"+
-                           "\nQuantity:  " + getQuantity()+ " left");
+                           "\nName:     :  " + getName() +
+                           "\nStrength  : +" + getStrength() + "HP" +
+                           "\nQuantity  :  " + getQuantity() + " left" +
+                           "\nPrice     :  " + getPrice());
 
     }
 }

@@ -6,6 +6,7 @@ public abstract class BallisticWeapon extends Weapon {
     private int ammo;
     private int maxAmmo;
 
+
     public int getAmmo() {
         return ammo;
     }
@@ -26,5 +27,6 @@ public abstract class BallisticWeapon extends Weapon {
     public String toString() {
         return "Ballistic";
     }
+
 
 }

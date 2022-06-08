@@ -1,7 +1,5 @@
 package cli;
 
-import characters.npc_classes.Boss;
-import characters.player_characters.*;
 import characters.player_characters.player_classes.commandos.BlackOpSoldier;
 import characters.player_characters.player_classes.commandos.DemolitionExpert;
 import characters.player_characters.player_classes.commandos.HeavyGunner;
@@ -11,8 +9,8 @@ import characters.player_characters.player_classes.metahumans.Replicant;
 import characters.player_characters.player_classes.operatives.ComputerEngineer;
 import characters.player_characters.player_classes.operatives.IntelligenceOperative;
 import characters.player_characters.player_classes.operatives.Sniper;
-import main.gameplay.Game;
 import main.auxilliary_tools.Narrator;
+import main.gameplay.GameLevels;
 
 import java.util.Scanner;
 
@@ -38,70 +36,12 @@ public class GameConsole {
 
 
     private static void start() {
-        Scanner gameScanner = new Scanner(System.in);
-        Game game = new Game();
-        game.selectDifficultyLevel();
-        System.out.println();
-        game.selectMainCharacter();
-        System.out.println();
-        game.populateEnemiesArray();
-
-
-        while (!game.isGameOver()) {
-            PlayerCharacter player = game.getMainCharacter();
-
-            Narrator.printIntro();
-            String name = gameScanner.next();
-            Narrator.setPlayerName(name);
-            Narrator.setPlayerWeapon(game.getMainCharacter().getPrimaryWeapon().getName());
-            player.setName(name);
-
-
-            Narrator.printLevelZeroText();
-            moveForward();
-            player.printImage();
-            moveForward();
-            player.printPlayerStats();
-            moveForward();
-            game.battle();
-            game.getMainCharacter().levelUp();
-            System.out.println();
-
-            Narrator.printLevelOneText();
-            System.out.println();
-            game.battle();
-            game.getMainCharacter().levelUp();
-            System.out.println();
-
-            Narrator.printLevelTwoText();
-            if (!game.solvePuzzle()) {
-                //Boss sphinx = new Boss(100, 20, 50, 0, "Sphinx");
-                Narrator.puzzleFailed();
-                //game.bossBattle(sphinx, player);
-            } else {
-                Narrator.puzzleSolved();
-                //player.setSpecialCounter(player.getSpecialCounter() + 1);
-                System.out.println("You gained a special attack!");
-            }
-            System.out.println();
-            game.getMainCharacter().levelUp();
-            System.out.println();
-            Narrator.printLevelThreeText();
-            System.out.println();
-            while (game.getEnemies().size() > 1) {
-                game.battle();
-                game.getMainCharacter().levelUp();
-                if (game.getEnemies().size() > 2) {
-                    System.out.println("Todd: Only " + (game.getEnemies().size() - 1) + " guards left.");
-                }
-            }
-            game.getEnemies().get(0).printImage();
-            Narrator.printLevelFourText();
-            game.bossBattle((Boss) game.getEnemies().get(0), game.getMainCharacter());
-            Narrator.printVictoryMessage();
-        }
-
-
+        GameLevels game = new GameLevels();
+        game.intro();
+        game.partOne();
+        game.partTwo();
+        game.partThree();
+        game.partFour();
     }
 
 
@@ -196,20 +136,23 @@ public class GameConsole {
     }
 
     public static void printDifficultyMenu() {
+        System.out.println();
         System.out.println("Select difficulty level");
         System.out.println(Narrator.CYAN + "(E) Easy" + Narrator.ANSI_RESET);
         System.out.println(Narrator.PURPLE + "(M) Medium" + Narrator.ANSI_RESET);
         System.out.println(Narrator.RED + "(H) Hard" + Narrator.ANSI_RESET);
+        System.out.println();
     }
 
     public static void printMainCharacterMenu() {
         System.out.println(Narrator.CYAN + "CHOOSE A BASE CLASS: " + Narrator.ANSI_RESET +
                            "\n(C) COMMANDOS" +
                            "\n(O) COVERT OPERATIVES" +
-                           "\n(M) METAHUMANS" + Narrator.CYAN +
-                           "\n\n Press on of the following buttons to learn" +
-                           "\n more about the base classes, You can return " +
+                           "\n(M) METAHUMANS\n" + Narrator.CYAN +
+                           "\nPress one of the following buttons to learn" +
+                           "\nmore about the base classes, You can return " +
                            "\nto this menu if you change your mind." + Narrator.ANSI_RESET);
+        System.out.println();
 
     }
 
@@ -217,11 +160,10 @@ public class GameConsole {
         System.out.println(Narrator.RED + "THE COMMANDOS:" + Narrator.ANSI_RESET);
         System.out.println();
         BlackOpSoldier.printClassDescription();
-        System.out.println();
-        DemolitionExpert.printClassDescription();
-        System.out.println();
+        moveForward();
         HeavyGunner.printClassDescription();
-        System.out.println();
+        moveForward();
+        DemolitionExpert.printClassDescription();
         moveForward();
     }
 
@@ -229,11 +171,10 @@ public class GameConsole {
         System.out.println(Narrator.CYAN + "THE COVERT OPERATIVES:" + Narrator.ANSI_RESET);
         System.out.println();
         ComputerEngineer.printClassDescription();
-        System.out.println();
+        moveForward();
         IntelligenceOperative.printClassDescription();
-        System.out.println();
+        moveForward();
         Sniper.printClassDescription();
-        System.out.println();
         moveForward();
     }
 
@@ -241,11 +182,10 @@ public class GameConsole {
         System.out.println(Narrator.PURPLE + "THE METAHUMANS:" + Narrator.ANSI_RESET);
         System.out.println();
         Biodroid.printClassDescription();
-        System.out.println();
+        moveForward();
         MKUltraAsset.printClassDescription();
-        System.out.println();
+        moveForward();
         Replicant.printClassDescription();
-        System.out.println();
         moveForward();
     }
 

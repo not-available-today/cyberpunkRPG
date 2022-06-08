@@ -1,93 +1,94 @@
 package characters.npc_classes;
 
 import characters.GameCharacter;
-import characters.player_characters.PlayerCharacter;
+import inventory.weapons.Weapon;
+import inventory.weapons.ballistic.*;
+import inventory.weapons.explosives.C4;
+import inventory.weapons.explosives.PlasmaGrenade;
+import inventory.weapons.melee.HuntingKnife;
+import inventory.weapons.melee.Katana;
+import inventory.weapons.melee.ShockMace;
+import inventory.weapons.psychogenics.Telekenesis;
+import inventory.weapons.tech.DroneSwarm;
+import inventory.weapons.tech.EMPCannon;
+import inventory.weapons.tech.SonicBlast;
 import main.auxilliary_tools.Dice;
 
 public abstract class NPC extends GameCharacter {
-
-
-    public NPC() {
-    }
-
-    @Override
-    public void block(GameCharacter c) {
-        System.out.println("Blocked the hit");
-
-    }
-
-
-    @Override
-    public void printImage() {
-    }
-
-    public void printPlayerStats() {
-        System.out.println("Enemy stats:");
-        System.out.println(getName());
-        System.out.println("Level: " + getLevel());
-        System.out.println("Health: " + getHealth());
-        System.out.println("Damage: " + dealDamage());
-
-    }
 
     public final void setStats(int[] stats) {
         setHealth(stats[0]);
         setMaxHealth(stats[0]);
         setArmorClass(stats[1]);
         setLevel(stats[2]);
+    }
 
+    @Override
+    public void block(GameCharacter c) {
+        System.out.println("Blocked the hit");
+    }
+
+    @Override
+    public void printImage() {
     }
 
 
+    public void printPlayerInformation() {
+        System.out.println("Enemy stats:");
+        System.out.println(getName());
+        System.out.println();
+        System.out.println("Level: " + getLevel());
+        System.out.println("Health: " + getHealth());
+        System.out.println("Weapon: " + getEquippedWeapon().getDamage());
 
-
-    protected void disadvantagedHit(NPC player, PlayerCharacter opponent) {
-        int damageTaken = opponent.getHealth() - (player.dealDamage() - Dice.d4(1));
-        opponent.setHealth(damageTaken);
-        printInflictedDamage(damageTaken);
     }
 
-    protected void regularHit(NPC player, PlayerCharacter opponent) {
-        int damageTaken = opponent.getHealth() - player.dealDamage();
-        opponent.setHealth(damageTaken);
-        printInflictedDamage(damageTaken);
+    public static Weapon generateYakuzaWeapon() {
+        Weapon[] possibleYakuzaWeapons = new Weapon[]{new Katana(), new Uzi(), new Glock17(), new EMPCannon(),
+                new C4(), new M82A1SniperRile()};
+
+        return possibleYakuzaWeapons[Dice.d6(1)-1];
     }
 
-    protected void d4Hit(NPC player, PlayerCharacter opponent) {
-        int damageTaken = opponent.getHealth() - player.dealDamage() + Dice.d4(1);
-        opponent.setHealth(damageTaken);
-        printInflictedDamage(damageTaken);
+    public static Weapon generateCartelWeapon() {
+        Weapon[] possibleCartelWeapons = new Weapon[]{new HuntingKnife(), new Uzi(), new ShockMace(),
+                new GrenadeLauncher(), new AK47(), new M249SAW()};
+
+        return possibleCartelWeapons[Dice.d6(1)-1];
     }
 
-    protected void d6Hit(NPC player, PlayerCharacter opponent) {
-        int damageTaken = opponent.getHealth() - player.dealDamage() + Dice.d6(1);
-        opponent.setHealth(damageTaken);
-        printInflictedDamage(damageTaken);
+    public static Weapon generateSTARCorpWeapon() {
+        Weapon[] possibleSTARCorpWeapons = new Weapon[]{new Telekenesis(), new M4Carbine(), new Glock17(),
+                new PlasmaGrenade(), new DroneSwarm(), new SonicBlast()};
+        return possibleSTARCorpWeapons[Dice.d6(1)-1];
     }
 
-    protected void d8Hit(NPC player, PlayerCharacter opponent) {
-        int damageTaken = opponent.getHealth() - player.dealDamage() + Dice.d8(1);
-        opponent.setHealth(damageTaken);
-        printInflictedDamage(damageTaken);
+    public static String generateYakuzaName() {
+        String[] possibleYakuzaNames = new String[]{
+                "Hiro Takahashi", "Ikeda Masa", "Shiro Hikaru", "Takamoto Yoichi",
+                "Fujii Katashi", "Nagano Nori", "Sawada Shichiro", "Hirano Mikio",
+                "Hamamoto Hisashi", "Hino Kenji", "Sano Tadashi", "Sasaki Toru",
+                "Kaneshiro Tsutomu", "Toyama Madoka", "Sakai Takahiro","Shimizu Hisoka",
+                "Yamamura Yori","Nakamura Ichirou","Morimoto Yuji","Akiyama Shuichi"};
+        return possibleYakuzaNames[Dice.d20()-1];
     }
 
-    protected void d10Hit(NPC player, PlayerCharacter opponent){
-        int damageTaken = opponent.getHealth() - player.dealDamage() + Dice.d10(1);
-        opponent.setHealth(damageTaken);
-        printInflictedDamage(damageTaken);
+    public static String generateCartelName() {
+        String[] possibleCartelNames = new String[]{
+                "Manuel Lopez", "Jose Sandoval", "Eduardo Costa", "Pedro Jimenez",
+                "Juan Morales", "Francisco Perez", "Armando Cortez", "Joker",
+                "Ricardo Milos", "Lucio Martinez", "Luis Ochoa", "Oso",
+                "Carlos Montalban", "Pablo Marquez", "Emilio Escobar","Jesus Jimenez",
+                "Aldo Ruiz","Alonzo Alvares","Felipe Nunes","Santino Bautista"};
+        return possibleCartelNames[Dice.d20()-1];
     }
-
-    protected void criticalHit(NPC player, PlayerCharacter opponent) {
-        int damageTaken = opponent.getHealth() - player.dealDamage() + Dice.d20();
-        opponent.setHealth(damageTaken);
-        printInflictedDamage(damageTaken);
+    public static String generateSTARCorpName() {
+        String[] possibleSTARCorpNames = new String[]{
+                "Antuan Dixon", "Jacob Miller", "Richard Wilkins", "Donald Dubois",
+                "James Blackfield", "David Dillinger", "Mitch O'Hara", "Aaron Park",
+                "Robert Packard", "John Stone", "Shane Watson", "Simon Hill",
+                "Alice Dark", "Ryan Davis", "George Eire","Sydney Black",
+                "Sam White","Lloyd Allen","Daron Niles","Ray Donovan"};
+        return possibleSTARCorpNames[Dice.d20()-1];
     }
-
-    protected  void d12Hit(NPC player, PlayerCharacter opponent){
-        int damageTaken = opponent.getHealth() - player.dealDamage() + Dice.d12(1);
-        opponent.setHealth(damageTaken);
-        printInflictedDamage(damageTaken);
-    }
-
-
 }

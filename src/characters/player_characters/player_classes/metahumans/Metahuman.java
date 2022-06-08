@@ -12,12 +12,12 @@ public abstract class Metahuman extends PlayerCharacter {
     public void attack(NPC opponent, PlayerCharacter player) {
         int roll = Dice.d20() + 1;
         switch (roll) {
-            case 20 -> Attack.criticalHit(opponent, player);
-            case 19, 18 -> Attack.d10Hit(opponent, player);
-            case 17, 16 -> Attack.d6Hit(opponent, player);
-            case 15, 14 -> Attack.d4Hit(opponent, player);
-            case 13, 12 -> Attack.regularHit(opponent, player);
-            case 11, 10 -> Attack.disadvantagedHit(opponent, player);
+            case 20 -> Attack.criticalHit(opponent, player, roll);
+            case 19, 18 -> Attack.fantasticHit(opponent, player, roll);
+            case 17, 16 -> Attack.greatHit(opponent, player, roll);
+            case 15, 14 -> Attack.goodHit(opponent, player, roll);
+            case 13, 12 -> Attack.regularHit(opponent, player, roll);
+            case 11, 10 -> Attack.disadvantagedHit(opponent, player, roll);
             default -> printInflictedDamage(0);
         }
     }

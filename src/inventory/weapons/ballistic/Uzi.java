@@ -1,18 +1,11 @@
-package inventory.weapons.melee;
+package inventory.weapons.ballistic;
 
 import characters.player_characters.PlayerCharacter;
 
-public class BillyClub extends CQCWeapon {
-
-
+public class Uzi extends BallisticWeapon{
     @Override
     public void printInfo() {
 
-    }
-
-    @Override
-    public int useWeapon() {
-        return 0;
     }
 
     @Override
@@ -21,7 +14,7 @@ public class BillyClub extends CQCWeapon {
     }
 
     @Override
-    public void depleteWeapon() {
+    public void depleteWeapon(int roll) {
 
     }
 }

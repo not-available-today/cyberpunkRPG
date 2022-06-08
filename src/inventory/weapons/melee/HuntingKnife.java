@@ -1,16 +1,14 @@
 package inventory.weapons.melee;
 
 import characters.player_characters.PlayerCharacter;
+import main.auxilliary_tools.Dice;
 
 public class HuntingKnife extends CQCWeapon {
-    @Override
-    public void printInfo() {
-
-    }
-
-    @Override
-    public int useWeapon() {
-        return 0;
+    public HuntingKnife() {
+        setNumberOfUsesLeft(50);
+        setDamage(Dice.d4(1));
+        setName("Hunting Knife");
+        setPrice(400);
     }
 
     @Override
@@ -19,9 +17,10 @@ public class HuntingKnife extends CQCWeapon {
     }
 
     @Override
-    public void depleteWeapon() {
-
+    public void printInfo() {
+        System.out.println("\b"+getName()+":" +
+                           "\nDamage       :" + getDamage() +
+                           "\nBurnDamage   :" + getNumberOfUsesLeft()
+        );
     }
-
-
 }

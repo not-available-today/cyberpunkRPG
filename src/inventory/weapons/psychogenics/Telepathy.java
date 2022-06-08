@@ -1,16 +1,23 @@
 package inventory.weapons.psychogenics;
 
 import characters.player_characters.PlayerCharacter;
+import main.auxilliary_tools.Dice;
 
 public class Telepathy extends Psychogenic{
-    @Override
-    public void printInfo() {
 
+    public Telepathy() {
+        setEnergy(15);
+        setMaxEnergy(15);
+        setDamage(Dice.d6(4));
+        setName("Telekenesis");
     }
 
     @Override
-    public int useWeapon() {
-        return 0;
+    public void printInfo() {
+        System.out.println("\b"+getName()  +
+                           "\nDamage          : " + getDamage() +
+                           "\nEnergy          : " + getEnergy()
+        );
     }
 
     @Override
@@ -18,8 +25,4 @@ public class Telepathy extends Psychogenic{
 
     }
 
-    @Override
-    public void depleteWeapon() {
-
-    }
 }

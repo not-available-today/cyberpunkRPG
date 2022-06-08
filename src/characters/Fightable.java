@@ -11,6 +11,6 @@ public interface Fightable {
 
         void block(GameCharacter c);
 
-        int dealDamage();
+        int dealDamage(int roll);
 
 }
